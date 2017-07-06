@@ -2,8 +2,8 @@
 //  CategoryController.swift
 //  csnews
 //
-//  Created by Reefaq on 11/09/15.
-//  Copyright (c) 2015 Reefaq. All rights reserved.
+//  Created by Nikhil Gohil on 06/07/17.
+//  Copyright © 2017 Nikhil Gohil. All rights reserved.
 //
 
 import Foundation
@@ -11,10 +11,10 @@ import Contentstack
 
 class CategoryController: UITableViewController {
     
-    private var categoryList = [Entry]();
-    private var categoryQuery:Query! = nil
-    private var selectedRowIndex = 0
-    private var isEnglish = true
+    fileprivate var categoryList = [Entry]();
+    fileprivate var categoryQuery:Query! = nil
+    fileprivate var selectedRowIndex = 0
+    fileprivate var isEnglish = true
     
     @IBOutlet weak var categoriesLabel: UILabel!
     
@@ -26,22 +26,22 @@ class CategoryController: UITableViewController {
         if(self.categoryList.count == 0){
             fetchAllCategories(true)
         }else {
-            self.tableView.selectRowAtIndexPath(NSIndexPath(forRow: selectedRowIndex, inSection: 0), animated: false, scrollPosition: UITableViewScrollPosition.Top)
+            self.tableView.selectRow(at: IndexPath(row: selectedRowIndex, section: 0), animated: false, scrollPosition: UITableViewScrollPosition.top)
         }
     }
-
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return (self.categoryList.count>0 ? self.categoryList.count+1 : self.categoryList.count)
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell:UITableViewCell = tableView.dequeueReusableCellWithIdentifier("categoryCell", forIndexPath: indexPath) 
+        let cell:UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath)
         
         return cell;
     }
     
-    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if (indexPath.row == 0){
             if(self.isEnglish){
                 cell.textLabel?.text = NSLocalizedString("Top News", comment: "topnews in category")
@@ -52,19 +52,19 @@ class CategoryController: UITableViewController {
             let entry:Entry = self.categoryList[indexPath.row-1]
             cell.textLabel?.text = entry.title
         }
-
-        cell.textLabel?.highlightedTextColor = UIColor.whiteColor()
-
+        
+        cell.textLabel?.highlightedTextColor = UIColor.white
+        
         cell.selectedBackgroundView = UIView(frame: cell.bounds)
-        cell.selectedBackgroundView?.backgroundColor = UIColor.darkGrayColor()
+        cell.selectedBackgroundView?.backgroundColor = UIColor.darkGray
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         selectedRowIndex = indexPath.row
         let centerVC:UINavigationController =  self.slidingPanelController.centerViewController as! UINavigationController
         
-        if(centerVC.topViewController!.isKindOfClass(TopNewsController.classForCoder())){
+        if(centerVC.topViewController!.isKind(of: TopNewsController.classForCoder())){
             let topNewsVC:TopNewsController =  centerVC.topViewController as! TopNewsController
             
             if (indexPath.row == 0){
@@ -78,13 +78,13 @@ class CategoryController: UITableViewController {
         menuClicked()
     }
     
-    func fetchAllCategories(isEnglish:Bool){
+    func fetchAllCategories(_ isEnglish:Bool){
         
         self.isEnglish = isEnglish
         if(categoryQuery != nil){
             categoryQuery.cancelRequests()
         }
-        categoryQuery = AppDelegate.sharedSite().contentTypeWithName("category").query()
+        categoryQuery = AppDelegate.sharedSite().contentType(withName: "category").query()
         
         categoryQuery.language(Language.ENGLISH_UNITED_STATES)
         
@@ -98,13 +98,13 @@ class CategoryController: UITableViewController {
             }else {
                 let entries:[(Entry)]! = result!.getResult() as! [(Entry)]
                 if(entries != nil && entries.count > 0){
-                    self.categoryList.removeAll(keepCapacity: false)
+                    self.categoryList.removeAll(keepingCapacity: false)
                     for entry:Entry in (result!.getResult() as! [(Entry)]){
                         self.categoryList.append(entry)
                     }
                     self.tableView.reloadData()
                     
-                    self.tableView.selectRowAtIndexPath(NSIndexPath(forRow: self.selectedRowIndex, inSection: 0), animated: false, scrollPosition: UITableViewScrollPosition.Top)
+                    self.tableView.selectRow(at: IndexPath(row: self.selectedRowIndex, section: 0), animated: false, scrollPosition: UITableViewScrollPosition.top)
                 }
                 
                 if(self.isEnglish){
@@ -115,5 +115,5 @@ class CategoryController: UITableViewController {
             }
         }
     }
-
+    
 }

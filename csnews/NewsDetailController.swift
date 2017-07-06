@@ -2,8 +2,8 @@
 //  NewsDetailController.swift
 //  csnews
 //
-//  Created by Reefaq on 23/09/15.
-//  Copyright (c) 2015 Reefaq. All rights reserved.
+//  Created by Nikhil Gohil on 06/07/17.
+//  Copyright © 2017 Nikhil Gohil. All rights reserved.
 //
 
 import Foundation
@@ -25,58 +25,67 @@ class NewsDetailController: UIViewController, UIWebViewDelegate {
         
         let gradient: CAGradientLayer = CAGradientLayer()
         gradient.frame = self.bannerImageView.superview!.bounds
-        gradient.colors = [UIColor(hexString:"#C64B4E")!.CGColor, UIColor(hexString:"#C64B4E")!.CGColor]
-        self.bannerImageView.superview!.layer.insertSublayer(gradient, atIndex: 0)
-
+        gradient.colors = [UIColor(hexString:"#C64B4E")!.cgColor, UIColor(hexString:"#C64B4E")!.cgColor]
+        self.bannerImageView.superview!.layer.insertSublayer(gradient, at: 0)
+        
         let gradientForImage: CAGradientLayer = CAGradientLayer()
-        gradientForImage.frame = CGRectMake(0, CGRectGetHeight(self.bannerImageView.bounds)-130, CGRectGetWidth(self.bannerImageView.bounds), 130)
-        gradientForImage.colors = [UIColor.clearColor().CGColor, UIColor(white: 0, alpha: 0.8).CGColor]
-        self.bannerImageView.layer.insertSublayer(gradientForImage, atIndex: 0)
-
+        gradientForImage.frame = CGRect(x: 0, y: self.bannerImageView.bounds.height-130, width: self.bannerImageView.bounds.width, height: 130)
+        gradientForImage.colors = [UIColor.clear.cgColor, UIColor(white: 0, alpha: 0.8).cgColor]
+        self.bannerImageView.layer.insertSublayer(gradientForImage, at: 0)
+        
         if (newsArticle != nil){
-            if(!newsArticle["featured_image"]!.isKindOfClass(NSNull.classForCoder())){
-                let bannerDict:[NSString: AnyObject] = newsArticle["featured_image"] as! [NSString: AnyObject]
-                let imageURLString = bannerDict["url"] as! String
-                self.bannerImageView.contentMode = UIViewContentMode.ScaleAspectFill
-                self.bannerImageView.clipsToBounds = true
-                self.bannerImageView.kf_setImageWithURL(NSURL(string: imageURLString)!)
+            
+            if let bannerDict:[NSString: AnyObject] = (newsArticle["featured_image" as NSCopying] as? [NSString: AnyObject]) {
+                if let imageURLString: String = bannerDict["url"] as? String {
+                    self.bannerImageView.contentMode = UIViewContentMode.scaleAspectFill
+                    self.bannerImageView.clipsToBounds = true
+                    let url = URL(string: imageURLString)!
+                    self.bannerImageView.kf.setImage(with: url,
+                                                     placeholder: nil,
+                                                     options: [.transition(.fade(1))],
+                                                     progressBlock: nil,
+                                                     completionHandler: nil)
+                }else{
+                    self.bannerImageView.image = UIImage(named: "thumbImage");
+                }
             }else {
+                
                 self.bannerImageView.image = nil;
             }
             
             self.titleLabel.text = newsArticle.title
             
             self.detailWebView.delegate = self
-            self.detailWebView.scrollView.scrollEnabled = false;
-            if(!newsArticle["body"]!.isKindOfClass(NSNull.classForCoder())){
-                let description = newsArticle["body"] as! String
-                self.detailWebView.loadHTMLString(description, baseURL: nil)
+            self.detailWebView.scrollView.isScrollEnabled = false;
+            
+            if let body = newsArticle["body" as NSCopying] as? String {
+                self.detailWebView.loadHTMLString(body, baseURL: nil)
             }
         }
         
-        let categories:NSArray = newsArticle["category"] as! NSArray
+        let categories:NSArray = newsArticle["category" as NSCopying] as! NSArray
         var category:String = ""
-        categories.enumerateObjectsUsingBlock({ (obj, index, stop) -> Void in
+        categories.enumerateObjects({ (obj, index, stop) -> Void in
             let categoryDict:[NSString:AnyObject] = obj as! [NSString:AnyObject]
             category = categoryDict["title"] as! String
         })
         
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-        dateFormatter.timeZone = NSTimeZone.localTimeZone()
-        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
-        let dtString = dateFormatter.stringFromDate(newsArticle.updatedAt) as String
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.timeZone = TimeZone.autoupdatingCurrent
+        dateFormatter.dateStyle = DateFormatter.Style.medium
+        let dtString = dateFormatter.string(from: newsArticle.updatedAt) as String
         
         self.categoryLabel.text = category + " | " + dtString
-
+        
         
     }
     
-    func webViewDidFinishLoad(webView: UIWebView) {
+    func webViewDidFinishLoad(_ webView: UIWebView) {
         webviewHeight.constant = webView.scrollView.contentSize.height
         self.view.layoutIfNeeded()
         
         let scrollView:UIScrollView = self.detailWebView.superview as! UIScrollView
-        scrollView.contentSize = CGSizeMake(scrollView.contentSize.width, webviewHeight.constant + 200)
+        scrollView.contentSize = CGSize(width: scrollView.contentSize.width, height: webviewHeight.constant + 200)
     }
 }
