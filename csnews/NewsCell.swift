@@ -2,8 +2,8 @@
 //  NewsCell.swift
 //  csnews
 //
-//  Created by Reefaq on 24/09/15.
-//  Copyright (c) 2015 Reefaq. All rights reserved.
+//  Created by Nikhil Gohil on 24/09/15.
+//  Copyright (c) 2015 Nikhil Gohil. All rights reserved.
 //
 
 import Foundation
@@ -26,38 +26,43 @@ class NewsCell: UITableViewCell {
         super.prepareForReuse()
     }
     
-    func loadContent(entry:Entry){
+    func loadContent(_ entry:Entry){
         self.titleLabel.text = entry.title
         
         var category:String = ""
         
-        let categories:NSArray = entry["category"] as! NSArray
+        let categories:NSArray = entry["category" as NSCopying] as! NSArray
         
-        categories.enumerateObjectsUsingBlock({ (obj, index, stop) -> Void in
+        categories.enumerateObjects({ (obj, index, stop) -> Void in
             let categoryDict:[NSString:AnyObject] = obj as! [NSString:AnyObject]
             category = categoryDict["title"] as! String
         })
         
         self.categoryLabel.text = category
         
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-        dateFormatter.timeZone = NSTimeZone.localTimeZone()
-        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
-        let dtString = dateFormatter.stringFromDate(entry.updatedAt) as String
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.timeZone = TimeZone.autoupdatingCurrent
+        dateFormatter.dateStyle = DateFormatter.Style.medium
+        let dtString = dateFormatter.string(from: entry.updatedAt) as String
         
         self.dateLabel.text = dtString
-        self.bannerImageView.backgroundColor = UIColor.darkGrayColor()
+        self.bannerImageView.backgroundColor = UIColor.darkGray
         
-        if(!entry["thumbnail"]!.isKindOfClass(NSNull)){
-            let bannerDict:[NSString: AnyObject] = entry["thumbnail"] as! [NSString: AnyObject]
-            let imageURLString = bannerDict["url"] as! String
-            self.bannerImageView.contentMode = UIViewContentMode.ScaleAspectFill
-            self.bannerImageView.clipsToBounds = true
-            self.bannerImageView.kf_showIndicatorWhenLoading = true
-            self.bannerImageView.kf_setImageWithURL(NSURL(string: imageURLString)!,
-                placeholderImage: UIImage(named: "thumbImage"),
-                optionsInfo: [.Transition: ImageTransition.Fade(0.1)])
+        if let bannerDict:[NSString: AnyObject] = (entry["thumbnail" as NSCopying] as? [NSString: AnyObject]) {
+            if let imageURLString: String = bannerDict["url"] as? String {
+                self.bannerImageView.contentMode = UIViewContentMode.scaleAspectFill
+                self.bannerImageView.clipsToBounds = true
+                
+                let url = URL(string: imageURLString)!
+                self.bannerImageView.kf.setImage(with: url,
+                                                 placeholder: nil,
+                                                 options: [.transition(.fade(1))],
+                                                 progressBlock: nil,
+                                                 completionHandler: nil)
+            }else{
+                self.bannerImageView.image = UIImage(named: "thumbImage");
+            }
         }else {
             self.bannerImageView.image = UIImage(named: "thumbImage");
         }
