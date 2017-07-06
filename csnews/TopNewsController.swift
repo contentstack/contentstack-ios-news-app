@@ -2,8 +2,8 @@
 //  TopNews.swift
 //  csnews
 //
-//  Created by Reefaq on 11/09/15.
-//  Copyright (c) 2015 Reefaq. All rights reserved.
+//  Created by Nikhil Gohil on 06/07/17.
+//  Copyright © 2017 Nikhil Gohil. All rights reserved.
 //
 
 import Foundation
@@ -12,73 +12,73 @@ import Contentstack
 
 class TopNewsController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    private var bannerNewsList = [Entry]();
-    private var topNewsArticles = [Entry]();
-    private var newsArticles = [Entry]();
+    fileprivate var bannerNewsList = [Entry]();
+    fileprivate var topNewsArticles = [Entry]();
+    fileprivate var newsArticles = [Entry]();
     
-    private var topNewsQuery:Query! = nil
-    private var allNewsByCategoryQuery:Query! = nil
+    fileprivate var topNewsQuery:Query! = nil
+    fileprivate var allNewsByCategoryQuery:Query! = nil
     
     @IBOutlet weak var bannerTitleLabel: UILabel!
     @IBOutlet weak var bannerCategoryLabel: UILabel!
     @IBOutlet weak var bannerImage: UIImageView!
     @IBOutlet weak var tableView: UITableView!
     
-    private let refreshControl = UIRefreshControl()
+    fileprivate let refreshControl = UIRefreshControl()
     
-    private var highlitedIndex:Int = 0
-    private var currentIndex:Int = 0
-    private var selectedCategory:String = ""
-    private var selectedCategoryUId:String = ""
-    private var isTopNews:Bool = true
-    private var bannerTimer:NSTimer! = nil
+    fileprivate var highlitedIndex:Int = 0
+    fileprivate var currentIndex:Int = 0
+    fileprivate var selectedCategory:String = ""
+    fileprivate var selectedCategoryUId:String = ""
+    fileprivate var isTopNews:Bool = true
+    fileprivate var bannerTimer:Timer! = nil
     
-    private var defaultSiteLanguage:LanguageType = LanguageType.English
-
+    fileprivate var defaultSiteLanguage:LanguageType = LanguageType.english
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = NSLocalizedString("Stack News", comment: "VC title")
         
-        bannerImage.superview?.hidden = true;
+        bannerImage.superview?.isHidden = true;
         
         self.tableView.estimatedRowHeight = 110
-        self.tableView.tableFooterView = UIView(frame: CGRectZero)
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         
         showTopMenu()
         
-        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: .ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(TopNewsController.refresh(_:)), for: .valueChanged)
         self.refreshControl.tintColor = UIColor(hexString: "#E44B4E")
         self.tableView.addSubview(self.refreshControl)
         
         // Do any additional setup after loading the view, typically from a nib.
         let gradient: CAGradientLayer = CAGradientLayer()
         gradient.frame = bannerImage.superview!.bounds
-        gradient.colors = [UIColor(hexString:"#C64B4E")!.CGColor, UIColor(hexString:"#C64B4E")!.CGColor]
-        bannerImage.superview!.layer.insertSublayer(gradient, atIndex: 0)
+        gradient.colors = [UIColor(hexString:"#C64B4E")!.cgColor, UIColor(hexString:"#C64B4E")!.cgColor]
+        bannerImage.superview!.layer.insertSublayer(gradient, at: 0)
         
         let gradientForImage: CAGradientLayer = CAGradientLayer()
-        gradientForImage.frame = CGRectMake(0, CGRectGetHeight(self.bannerImage.bounds)-130, CGRectGetWidth(bannerImage.bounds), 130)
-        gradientForImage.colors = [UIColor.clearColor().CGColor, UIColor(white: 0, alpha: 0.8).CGColor]
-        bannerImage.layer.insertSublayer(gradientForImage, atIndex: 0)
-
+        gradientForImage.frame = CGRect(x: 0, y: self.bannerImage.bounds.height-130, width: bannerImage.bounds.width, height: 130)
+        gradientForImage.colors = [UIColor.clear.cgColor, UIColor(white: 0, alpha: 0.8).cgColor]
+        bannerImage.layer.insertSublayer(gradientForImage, at: 0)
+        
         self.slidingPanelController.leftPanelController.viewDidLoad()
-
+        
         self.refresh(nil)
-
+        
     }
     
-    func refresh(refreshControl:UIRefreshControl!) {
+    func refresh(_ refreshControl:UIRefreshControl!) {
         
         if(refreshControl == nil){
             self.enableNavigationButtons(false)
-
+            
             self.showLoadingInView(self.view)
-            let netCallsGroup:dispatch_group_t = dispatch_group_create()
+            let netCallsGroup:DispatchGroup = DispatchGroup()
             self.isTopNews = true;
             self.fetchNews(netCallsGroup, categoryEntry:nil, isTopNews:self.isTopNews)
             
-            dispatch_group_notify(netCallsGroup, dispatch_get_main_queue()) { () -> Void in
+            netCallsGroup.notify(queue: DispatchQueue.main) { () -> Void in
                 self.filterBannerNews(false)
                 self.tableView.reloadData()
                 self.hideLoadingInView(self.view)
@@ -91,29 +91,29 @@ class TopNewsController: UIViewController, UITableViewDataSource, UITableViewDel
         }
     }
     
-    func enableNavigationButtons(enable:Bool){
-        self.navigationItem.leftBarButtonItem?.enabled = enable
-        self.navigationItem.rightBarButtonItem?.enabled = enable
+    func enableNavigationButtons(_ enable:Bool){
+        self.navigationItem.leftBarButtonItem?.isEnabled = enable
+        self.navigationItem.rightBarButtonItem?.isEnabled = enable
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-          return self.newsArticles.count
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.newsArticles.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell:NewsCell = tableView.dequeueReusableCellWithIdentifier("topNewsCell", forIndexPath: indexPath) as! NewsCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell:NewsCell = tableView.dequeueReusableCell(withIdentifier: "topNewsCell", for: indexPath) as! NewsCell
         return cell;
     }
     
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let entry:Entry! = self.newsArticles[indexPath.row]
         let newsCell:NewsCell = cell as! NewsCell
         newsCell.loadContent(entry)
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if(self.isTopNews){
-            if(self.defaultSiteLanguage == LanguageType.English){
+            if(self.defaultSiteLanguage == LanguageType.english){
                 return NSLocalizedString("TOP NEWS", comment: "Section title in homescreen")
             }else {
                 return "मुख्य समाचार"
@@ -123,32 +123,32 @@ class TopNewsController: UIViewController, UITableViewDataSource, UITableViewDel
         }
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if(self.newsArticles.count > 0){
             return 25
         }
         return 0
     }
     
-    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let headerView:UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
-        headerView.textLabel!.font = UIFont.systemFontOfSize(12)
+        headerView.textLabel!.font = UIFont.systemFont(ofSize: 12)
     }
     
     func fetchTopNews(){
         self.isTopNews = true;
         self.fetchNews(nil, categoryEntry:nil, isTopNews:true)
     }
-    func fetchNewsOnCategory(categoryEntry:Entry){
+    func fetchNewsOnCategory(_ categoryEntry:Entry){
         self.isTopNews = false;
         self.fetchNews(nil, categoryEntry:categoryEntry)
     }
     
-    func fetchNews(group:dispatch_group_t!, categoryEntry:Entry! = nil, isTopNews:Bool = false){
+    func fetchNews(_ group:DispatchGroup!, categoryEntry:Entry! = nil, isTopNews:Bool = false){
         if(group != nil){
-            dispatch_group_enter(group)
+            group.enter()
         }else {
-            if(!self.refreshControl.refreshing){
+            if(!self.refreshControl.isRefreshing){
                 self.showLoadingInView(self.view)
             }
             
@@ -159,91 +159,90 @@ class TopNewsController: UIViewController, UITableViewDataSource, UITableViewDel
             self.selectedCategory = categoryTitle
             self.selectedCategoryUId = categoryUid
         }
-
+        
         if(allNewsByCategoryQuery != nil){
             allNewsByCategoryQuery.cancelRequests()
         }
-        allNewsByCategoryQuery = AppDelegate.sharedSite().contentTypeWithName("news").query()
-
+        allNewsByCategoryQuery = AppDelegate.sharedSite().contentType(withName: "news").query()
+        
         allNewsByCategoryQuery.language(Language.ENGLISH_UNITED_STATES)
         
-        if(self.defaultSiteLanguage == LanguageType.Hindi){
+        if(self.defaultSiteLanguage == LanguageType.hindi){
             allNewsByCategoryQuery.language(Language.HINDI_INDIA)
         }
         
         if(isTopNews){
-            allNewsByCategoryQuery.whereKey("top_news", equalTo: NSNumber(bool: true))
+            allNewsByCategoryQuery.whereKey("top_news", equalTo: NSNumber(value: true as Bool))
         }else {
             allNewsByCategoryQuery.whereKey("category", equalTo: [self.selectedCategoryUId])
         }
         
-        allNewsByCategoryQuery.includeReferenceFieldWithKey(["category"])
-        allNewsByCategoryQuery.orderByAscending("updated_at")
+        allNewsByCategoryQuery.includeReferenceField(withKey: ["category"])
+        allNewsByCategoryQuery.order(byAscending: "updated_at")
         
         
         allNewsByCategoryQuery.find { (responseType, result, error) -> Void in
             
             if(error != nil){
-                let alertController:UIAlertController = UIAlertController(title: NSLocalizedString("Error", comment: "Error"), message: "Opps! Some error occured while fetching data.", preferredStyle: UIAlertControllerStyle.Alert)
+                let alertController:UIAlertController = UIAlertController(title: NSLocalizedString("Error", comment: "Error"), message: "Opps! Some error occured while fetching data.", preferredStyle: UIAlertControllerStyle.alert)
                 
-                let cancelAction = UIAlertAction(title: NSLocalizedString("Ok", comment: "Ok"), style: .Cancel) { (action) in
-                    self.dismissViewControllerAnimated(true, completion: nil)
+                let cancelAction = UIAlertAction(title: NSLocalizedString("Ok", comment: "Ok"), style: .cancel) { (action) in
+                    self.dismiss(animated: true, completion: nil)
                 }
                 alertController.addAction(cancelAction)
-                self.presentViewController(alertController, animated: true) {
-                    // ...
+                self.present(alertController, animated: true) {
                 }
             }else {
                 
-                self.newsArticles.removeAll(keepCapacity: false)
-
+                self.newsArticles.removeAll(keepingCapacity: false)
+                
                 for entry:Entry in (result!.getResult() as! [(Entry)]){
                     self.newsArticles.append(entry)
                     
                     var category:String = ""
-                    let categories:NSArray = entry["category"] as! NSArray
-                    categories.enumerateObjectsUsingBlock({ (obj, index, stop) -> Void in
+                    let categories:NSArray = entry["category" as NSCopying] as! NSArray
+                    categories.enumerateObjects({ (obj, index, stop) -> Void in
                         let categoryDict:[NSString:AnyObject] = obj as! [NSString:AnyObject]
                         category = categoryDict["title"] as! String
                     })
                     self.selectedCategory = category
-
+                    
                 }
             }
             
             if(isTopNews){
-                self.topNewsArticles.removeAll(keepCapacity: false)
-                self.topNewsArticles.appendContentsOf(self.newsArticles)
+                self.topNewsArticles.removeAll(keepingCapacity: false)
+                self.topNewsArticles.append(contentsOf: self.newsArticles)
             }
-
+            
             if(group != nil){
-                dispatch_group_leave(group)
+                group.leave()
             }else {
                 self.filterBannerNews(!isTopNews)
                 self.tableView.reloadData()
-
-                if(self.refreshControl.refreshing){
+                
+                if(self.refreshControl.isRefreshing){
                     self.refreshControl.endRefreshing()
                 }else {
                     self.hideLoadingInView(self.view)
                 }
             }
-
+            
         }
         
     }
     
-    func filterBannerNews(onCategory:Bool){
+    func filterBannerNews(_ onCategory:Bool){
         self.stopRotatingBanner()
-        self.bannerNewsList.removeAll(keepCapacity: false)
+        self.bannerNewsList.removeAll(keepingCapacity: false)
         if(onCategory){
             self.bannerNewsList = self.topNewsArticles.filter { (e) -> Bool in
                 var retVal:Bool = false
-                let categories:NSArray = e["category"] as! NSArray
-                categories.enumerateObjectsUsingBlock({ (obj, index, stop) -> Void in
+                let categories:NSArray = e["category" as NSCopying] as! NSArray
+                categories.enumerateObjects({ (obj, index, stop) -> Void in
                     var categoryUID:String = ""
-                    let category:Entry = AppDelegate.sharedSite().contentTypeWithName("category").entryWithUID(categoryUID)
-                    category.configureWithDictionary(obj as! [NSObject : AnyObject])
+                    let category:Entry = AppDelegate.sharedSite().contentType(withName: "category").entry(withUID: categoryUID)
+                    category.configure(with: obj as! [AnyHashable: Any])
                     categoryUID = category.uid
                     if(categoryUID == self.selectedCategoryUId){
                         retVal = true
@@ -258,10 +257,10 @@ class TopNewsController: UIViewController, UITableViewDataSource, UITableViewDel
         self.highlitedIndex = 0
         self.startRotatingBanner()
     }
-
+    
     func startRotatingBanner(){
         stopRotatingBanner()
-        self.bannerTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: "rotateBanner", userInfo: nil, repeats: true)
+        self.bannerTimer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(TopNewsController.rotateBanner), userInfo: nil, repeats: true)
         rotateBanner()
     }
     
@@ -271,7 +270,7 @@ class TopNewsController: UIViewController, UITableViewDataSource, UITableViewDel
             self.bannerTimer = nil;
         }
     }
-
+    
     func rotateBanner(){
         if(self.bannerNewsList.count==0){
             self.bannerImage.image = nil
@@ -281,38 +280,42 @@ class TopNewsController: UIViewController, UITableViewDataSource, UITableViewDel
         }
         
         if(self.highlitedIndex < self.bannerNewsList.count){
-            bannerImage.superview?.hidden = false;
-            bannerImage.kf_showIndicatorWhenLoading = true
-
+            bannerImage.superview?.isHidden = false;
+            
             self.currentIndex = self.highlitedIndex
             let entry:Entry = self.bannerNewsList[self.highlitedIndex]
-            if(!entry["featured_image"]!.isKindOfClass(NSNull)){
-                let bannerDict:[NSString: AnyObject] = entry["featured_image"] as! [NSString: AnyObject]
-                let imageURLString = bannerDict["url"] as! String
-                self.bannerImage.contentMode = UIViewContentMode.ScaleAspectFill
-                self.bannerImage.clipsToBounds = true
-                self.bannerImage.kf_setImageWithURL(NSURL(string: imageURLString)!,
-                    placeholderImage: nil,
-                    optionsInfo: [.Transition: ImageTransition.Fade(0.1)])
-
+            
+            if let bannerDict:[NSString: AnyObject] = (entry["featured_image" as NSCopying] as? [NSString: AnyObject]) {
+                if let imageURLString: String = bannerDict["url"] as? String {
+                    self.bannerImage.contentMode = UIViewContentMode.scaleAspectFill
+                    self.bannerImage.clipsToBounds = true
+                    let url = URL(string: imageURLString)!
+                    self.bannerImage.kf.setImage(with: url,
+                                                 placeholder: nil,
+                                                 options: [.transition(.fade(1))],
+                                                 progressBlock: nil,
+                                                 completionHandler: nil)
+                }else{
+                    self.bannerImage.image = UIImage(named: "thumbImage");
+                }
             }else {
                 self.bannerImage.image = nil;
             }
             
             self.bannerTitleLabel.text = entry.title
             
-            let categories:NSArray = entry["category"] as! NSArray
+            let categories:NSArray = entry["category" as NSCopying] as! NSArray
             var category:String = ""
-            categories.enumerateObjectsUsingBlock({ (obj, index, stop) -> Void in
+            categories.enumerateObjects({ (obj, index, stop) -> Void in
                 let categoryDict:[NSString:AnyObject] = obj as! [NSString:AnyObject]
                 category = categoryDict["title"] as! String
             })
             
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-            dateFormatter.timeZone = NSTimeZone.localTimeZone()
-            dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
-            let dtString = dateFormatter.stringFromDate(entry.updatedAt) as String
+            let dateFormatter = DateFormatter()
+            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+            dateFormatter.timeZone = TimeZone.autoupdatingCurrent
+            dateFormatter.dateStyle = DateFormatter.Style.medium
+            let dtString = dateFormatter.string(from: entry.updatedAt) as String
             
             self.bannerCategoryLabel.text = category + " | " + dtString
             self.highlitedIndex+=1
@@ -320,10 +323,10 @@ class TopNewsController: UIViewController, UITableViewDataSource, UITableViewDel
                 self.highlitedIndex = 0
             }
         }
-
+        
     }
     
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if(identifier == "bannerDetail"){
             if(self.bannerNewsList.count > self.currentIndex){
                 return true
@@ -333,83 +336,83 @@ class TopNewsController: UIViewController, UITableViewDataSource, UITableViewDel
         
         return true
     }
-
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if(segue.identifier == "bannerDetail"){
             if(self.bannerNewsList.count > self.currentIndex){
                 let entry:Entry = self.bannerNewsList[self.currentIndex]
-                let detailVC:NewsDetailController = segue.destinationViewController as! NewsDetailController
+                let detailVC:NewsDetailController = segue.destination as! NewsDetailController
                 detailVC.newsArticle = entry
             }
         }else {
             var entry:Entry! = nil
             entry = self.newsArticles[self.tableView.indexPathForSelectedRow!.row]
-            let detailVC:NewsDetailController = segue.destinationViewController as! NewsDetailController
+            let detailVC:NewsDetailController = segue.destination as! NewsDetailController
             detailVC.newsArticle = entry
             
-            self.tableView.deselectRowAtIndexPath(self.tableView.indexPathForSelectedRow!, animated: false)
+            self.tableView.deselectRow(at: self.tableView.indexPathForSelectedRow!, animated: false)
         }
         
     }
     
     func fetchAndChangeNewsLanguage(){
         
-        if(self.slidingPanelController.leftPanelController != nil && self.slidingPanelController.leftPanelController.isKindOfClass(CategoryController.classForCoder())){
+        if(self.slidingPanelController.leftPanelController != nil && self.slidingPanelController.leftPanelController.isKind(of: CategoryController.classForCoder())){
             let leftVC:CategoryController =  self.slidingPanelController.leftPanelController as! CategoryController
-            leftVC.fetchAllCategories(defaultSiteLanguage == LanguageType.English ? true : false)
+            leftVC.fetchAllCategories(defaultSiteLanguage == LanguageType.english ? true : false)
         }
-
+        
         self.enableNavigationButtons(false)
-
+        
         self.stopRotatingBanner()
         self.showLoadingInView(self.view)
-        let netCallsGroup:dispatch_group_t = dispatch_group_create()
+        let netCallsGroup:DispatchGroup = DispatchGroup()
         
         self.fetchNews(netCallsGroup, categoryEntry: nil, isTopNews: true)
         
-        dispatch_group_notify(netCallsGroup, dispatch_get_main_queue()) { () -> Void in
-            let netCallsGroup2:dispatch_group_t = dispatch_group_create()
+        netCallsGroup.notify(queue: DispatchQueue.main) { () -> Void in
+            let netCallsGroup2:DispatchGroup = DispatchGroup()
             
             if(!self.isTopNews){
                 self.fetchNews(netCallsGroup2, categoryEntry: nil)
             }
-            dispatch_group_notify(netCallsGroup2, dispatch_get_main_queue()) { () -> Void in
+            netCallsGroup2.notify(queue: DispatchQueue.main) { () -> Void in
                 self.filterBannerNews(!self.isTopNews)
                 self.tableView.reloadData()
                 self.hideLoadingInView(self.view)
-
+                
                 self.enableNavigationButtons(true)
             }
         }
-
+        
     }
     
     @IBAction func changeLanguage(){
-        let alertController:UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        let alertController:UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel"), style: .Cancel) { (action) in
-            self.dismissViewControllerAnimated(true, completion: nil)
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel"), style: .cancel) { (action) in
+            self.dismiss(animated: true, completion: nil)
         }
         alertController.addAction(cancelAction)
         
-        let englishAction = UIAlertAction(title: NSLocalizedString("English (Default)", comment: "English (Default)") + (self.defaultSiteLanguage == LanguageType.English ? " \u{2713}" : ""), style: .Default) { (action) in
-
-            self.defaultSiteLanguage = LanguageType.English
+        let englishAction = UIAlertAction(title: NSLocalizedString("English (Default)", comment: "English (Default)") + (self.defaultSiteLanguage == LanguageType.english ? " \u{2713}" : ""), style: .default) { (action) in
+            
+            self.defaultSiteLanguage = LanguageType.english
             self.fetchAndChangeNewsLanguage()
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         }
         alertController.addAction(englishAction)
         
-        let hindiAction = UIAlertAction(title: NSLocalizedString("हिंदी", comment: "Hindi") + (self.defaultSiteLanguage == LanguageType.Hindi ? " \u{2713}" : ""), style: .Default) { (action) in
-            self.defaultSiteLanguage = LanguageType.Hindi
+        let hindiAction = UIAlertAction(title: NSLocalizedString("हिंदी", comment: "Hindi") + (self.defaultSiteLanguage == LanguageType.hindi ? " \u{2713}" : ""), style: .default) { (action) in
+            self.defaultSiteLanguage = LanguageType.hindi
             self.fetchAndChangeNewsLanguage()
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         }
         alertController.addAction(hindiAction)
-
         
-        self.presentViewController(alertController, animated: true) {
+        
+        self.present(alertController, animated: true) {
             // ...
         }
     }

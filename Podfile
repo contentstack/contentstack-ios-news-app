@@ -3,7 +3,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'csnews' do
-pod 'NVActivityIndicatorView', '2.0'
-pod 'Kingfisher', '~> 1.6'
-pod 'Contentstack', '~> 3.0'
+    pod 'NVActivityIndicatorView', '3.6.1'
+    pod 'Kingfisher', '~> 3.10.2'
+    pod 'Contentstack', '~> 3.1.1'
 end

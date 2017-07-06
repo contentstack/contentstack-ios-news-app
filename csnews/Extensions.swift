@@ -2,58 +2,58 @@
 //  Extensions.swift
 //  csnews
 //
-//  Created by Reefaq on 11/09/15.
-//  Copyright (c) 2015 Reefaq. All rights reserved.
+//  Created by Nikhil Gohil on 11/09/15.
+//  Copyright (c) 2015 Nikhil Gohil. All rights reserved.
 //
 
 import Foundation
 import NVActivityIndicatorView
 
 extension UIViewController{
-
+    
     func showTopMenu(){
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("menuClicked"))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(UIViewController.menuClicked))
     }
     
     func menuClicked() {
         toggleLeftMenu()
     }
     
-    private func toggleLeftMenu(){
-        if(self.slidingPanelController.sideDisplayed != .Left){
-            UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
+    fileprivate func toggleLeftMenu(){
+        if(self.slidingPanelController.sideDisplayed != .left){
+            UIApplication.shared.statusBarStyle = UIStatusBarStyle.default
             self.slidingPanelController!.openLeftPanel()
         }else {
-            UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+            UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
             self.slidingPanelController!.closePanel()
         }
     }
     
-    func showLoadingInView(view:UIView!){
+    func showLoadingInView(_ view:UIView!){
         if(view == nil){
             return
         }
         
-        let dimBackGroundView:UIView  = UIView(frame: CGRectMake(0, 0, CGRectGetWidth(view.bounds), CGRectGetHeight(view.bounds)))
+        let dimBackGroundView:UIView  = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height))
         
         dimBackGroundView.backgroundColor = UIColor(white: 1, alpha: 1);
-        let activityIndicatorView = NVActivityIndicatorView(frame: CGRectMake(dimBackGroundView.center.x-25, dimBackGroundView.center.y-25, 50, 50),
-            type: NVActivityIndicatorType.LineScale, color: UIColor(hexString: "#E44B4E")!)
+        let activityIndicatorView = NVActivityIndicatorView(frame: CGRect(x: dimBackGroundView.center.x-25, y: dimBackGroundView.center.y-25, width: 50, height: 50),
+                                                            type: NVActivityIndicatorType.lineScale, color: UIColor(hexString: "#E44B4E")!)
         dimBackGroundView.addSubview(activityIndicatorView)
         dimBackGroundView.tag = 99;
         view.addSubview(dimBackGroundView)
         
-        activityIndicatorView.startAnimation()
+        activityIndicatorView.startAnimating()
     }
     
-    func hideLoadingInView(view:UIView!){
+    func hideLoadingInView(_ view:UIView!){
         if(view == nil){
             return
         }
-
+        
         let dimBackGroundView:UIView? = view.viewWithTag(99)
         let activityIndicatorView:NVActivityIndicatorView = dimBackGroundView?.subviews[0] as! NVActivityIndicatorView
-        activityIndicatorView.stopAnimation()
+        activityIndicatorView.stopAnimating()
         dimBackGroundView!.removeFromSuperview()
     }
 }
