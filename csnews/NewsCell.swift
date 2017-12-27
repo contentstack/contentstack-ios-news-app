@@ -51,10 +51,14 @@ class NewsCell: UITableViewCell {
         
         if let bannerDict:[NSString: AnyObject] = (entry["thumbnail" as NSCopying] as? [NSString: AnyObject]) {
             if let imageURLString: String = bannerDict["url"] as? String {
+                let param: [AnyHashable: Any] = [
+                    AnyHashable("width"): self.bannerImageView.frame.size.width,
+                    AnyHashable("height"): self.bannerImageView.frame.size.height,
+                    AnyHashable("fit"): "crop"
+                ]
                 self.bannerImageView.contentMode = UIViewContentMode.scaleAspectFill
                 self.bannerImageView.clipsToBounds = true
-                
-                let url = URL(string: imageURLString)!
+                let url = URL(string: AppDelegate.sharedSite().imageTransform(withUrl: imageURLString, andParams: param))!
                 self.bannerImageView.kf.setImage(with: url,
                                                  placeholder: nil,
                                                  options: [.transition(.fade(1))],
