@@ -289,7 +289,12 @@ class TopNewsController: UIViewController, UITableViewDataSource, UITableViewDel
                 if let imageURLString: String = bannerDict["url"] as? String {
                     self.bannerImage.contentMode = UIViewContentMode.scaleAspectFill
                     self.bannerImage.clipsToBounds = true
-                    let url = URL(string: imageURLString)!
+                    let param: [AnyHashable: Any] = [
+                        AnyHashable("width"): self.bannerImage.frame.size.width,
+                        AnyHashable("height"): self.bannerImage.frame.size.height,
+                        AnyHashable("fit"): "crop"
+                    ]
+                    let url = URL(string: AppDelegate.sharedSite().imageTransform(withUrl: imageURLString, andParams: param))!
                     self.bannerImage.kf.setImage(with: url,
                                                  placeholder: nil,
                                                  options: [.transition(.fade(1))],
