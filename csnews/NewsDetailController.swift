@@ -39,7 +39,13 @@ class NewsDetailController: UIViewController, UIWebViewDelegate {
                 if let imageURLString: String = bannerDict["url"] as? String {
                     self.bannerImageView.contentMode = UIViewContentMode.scaleAspectFill
                     self.bannerImageView.clipsToBounds = true
-                    let url = URL(string: imageURLString)!
+                    let param: [AnyHashable: Any] = [
+                        AnyHashable("width"): self.view.frame.size.width,
+                        AnyHashable("height"): self.bannerImageView.frame.size.height,
+                        AnyHashable("fit"): "crop"
+                    ]
+                    let url = URL(string: AppDelegate.sharedSite().imageTransform(withUrl: imageURLString, andParams: param))!
+//                    let url = URL(string: imageURLString)!
                     self.bannerImageView.kf.setImage(with: url,
                                                      placeholder: nil,
                                                      options: [.transition(.fade(1))],
