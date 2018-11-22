@@ -1,6 +1,6 @@
 ## Contentstack ios news app
 
-**About Built.io Contentstack**: Built.io Contentstack is a headless CMS with an API-first approach that puts content at the centre. It is designed to simplify the process of publication by separating code from content.
+**About Contentstack**: Contentstack is a headless CMS with an API-first approach that puts content at the centre. It is designed to simplify the process of publication by separating code from content.
 
 **About this project**: Create an iOS news app using Contentstack iOS SDK.
 
