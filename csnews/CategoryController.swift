@@ -26,7 +26,7 @@ class CategoryController: UITableViewController {
         if(self.categoryList.count == 0){
             fetchAllCategories(true)
         }else {
-            self.tableView.selectRow(at: IndexPath(row: selectedRowIndex, section: 0), animated: false, scrollPosition: UITableViewScrollPosition.top)
+            self.tableView.selectRow(at: IndexPath(row: selectedRowIndex, section: 0), animated: false, scrollPosition: UITableView.ScrollPosition.top)
         }
     }
     
@@ -104,7 +104,7 @@ class CategoryController: UITableViewController {
                     }
                     self.tableView.reloadData()
                     
-                    self.tableView.selectRow(at: IndexPath(row: self.selectedRowIndex, section: 0), animated: false, scrollPosition: UITableViewScrollPosition.top)
+                    self.tableView.selectRow(at: IndexPath(row: self.selectedRowIndex, section: 0), animated: false, scrollPosition: UITableView.ScrollPosition.top)
                 }
                 
                 if(self.isEnglish){

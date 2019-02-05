@@ -12,10 +12,10 @@ import NVActivityIndicatorView
 extension UIViewController{
     
     func showTopMenu(){
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(UIViewController.menuClicked))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(UIViewController.menuClicked))
     }
     
-    func menuClicked() {
+    @objc func menuClicked() {
         toggleLeftMenu()
     }
     

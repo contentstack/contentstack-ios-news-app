@@ -56,7 +56,7 @@ class NewsCell: UITableViewCell {
                     AnyHashable("height"): self.bannerImageView.frame.size.height,
                     AnyHashable("fit"): "crop"
                 ]
-                self.bannerImageView.contentMode = UIViewContentMode.scaleAspectFill
+                self.bannerImageView.contentMode = UIView.ContentMode.scaleAspectFill
                 self.bannerImageView.clipsToBounds = true
                 let url = URL(string: AppDelegate.sharedSite().imageTransform(withUrl: imageURLString, andParams: param))!
                 self.bannerImageView.kf.setImage(with: url,
