@@ -68,7 +68,7 @@ class TopNewsController: UIViewController, UITableViewDataSource, UITableViewDel
         
     }
     
-    func refresh(_ refreshControl:UIRefreshControl!) {
+    @objc func refresh(_ refreshControl:UIRefreshControl!) {
         
         if(refreshControl == nil){
             self.enableNavigationButtons(false)
@@ -184,7 +184,7 @@ class TopNewsController: UIViewController, UITableViewDataSource, UITableViewDel
         allNewsByCategoryQuery.find { (responseType, result, error) -> Void in
             
             if(error != nil){
-                let alertController:UIAlertController = UIAlertController(title: NSLocalizedString("Error", comment: "Error"), message: "Opps! Some error occured while fetching data.", preferredStyle: UIAlertControllerStyle.alert)
+                let alertController:UIAlertController = UIAlertController(title: NSLocalizedString("Error", comment: "Error"), message: "Opps! Some error occured while fetching data.", preferredStyle: UIAlertController.Style.alert)
                 
                 let cancelAction = UIAlertAction(title: NSLocalizedString("Ok", comment: "Ok"), style: .cancel) { (action) in
                     self.dismiss(animated: true, completion: nil)
@@ -271,7 +271,7 @@ class TopNewsController: UIViewController, UITableViewDataSource, UITableViewDel
         }
     }
     
-    func rotateBanner(){
+    @objc func rotateBanner(){
         if(self.bannerNewsList.count==0){
             self.bannerImage.image = nil
             self.bannerTitleLabel.text = ""
@@ -287,7 +287,7 @@ class TopNewsController: UIViewController, UITableViewDataSource, UITableViewDel
             
             if let bannerDict:[NSString: AnyObject] = (entry["featured_image" as NSCopying] as? [NSString: AnyObject]) {
                 if let imageURLString: String = bannerDict["url"] as? String {
-                    self.bannerImage.contentMode = UIViewContentMode.scaleAspectFill
+                    self.bannerImage.contentMode = UIView.ContentMode.scaleAspectFill
                     self.bannerImage.clipsToBounds = true
                     let param: [AnyHashable: Any] = [
                         AnyHashable("width"): self.bannerImage.frame.size.width,
@@ -394,7 +394,7 @@ class TopNewsController: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     @IBAction func changeLanguage(){
-        let alertController:UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+        let alertController:UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertController.Style.actionSheet)
         
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel"), style: .cancel) { (action) in
             self.dismiss(animated: true, completion: nil)

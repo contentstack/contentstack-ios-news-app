@@ -37,7 +37,7 @@ class NewsDetailController: UIViewController, UIWebViewDelegate {
             
             if let bannerDict:[NSString: AnyObject] = (newsArticle["featured_image" as NSCopying] as? [NSString: AnyObject]) {
                 if let imageURLString: String = bannerDict["url"] as? String {
-                    self.bannerImageView.contentMode = UIViewContentMode.scaleAspectFill
+                    self.bannerImageView.contentMode = UIView.ContentMode.scaleAspectFill
                     self.bannerImageView.clipsToBounds = true
                     let param: [AnyHashable: Any] = [
                         AnyHashable("width"): self.view.frame.size.width,
