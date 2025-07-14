@@ -11,7 +11,7 @@ DEPENDENCIES:
   - NVActivityIndicatorView (~> 4.4.0)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - Contentstack
     - Kingfisher
     - NVActivityIndicatorView
@@ -21,6 +21,6 @@ SPEC CHECKSUMS:
   Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
   NVActivityIndicatorView: f0a6b0ed2973d9544da268f4eb76696f0a9577b0
 
-PODFILE CHECKSUM: 841fe30c08174e6ed20c8ce8df27fb8bfe0ce183
+PODFILE CHECKSUM: 167accf92a360532794d3bb3f85ea117dacc1880
 
-COCOAPODS: 1.6.0.rc.2
+COCOAPODS: 1.16.2
