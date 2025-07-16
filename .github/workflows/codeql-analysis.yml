@@ -57,9 +57,15 @@ jobs:
     #   uses: github/codeql-action/autobuild@v3
 
      # Manual build step for Swift/iOS
+    - name: List available schemes
+      run: xcodebuild -list
+
+    - name: List available simulators
+      run: xcrun simctl list devices
+
     - name: Build with xcodebuild
       run: |
-       xcodebuild -scheme csnews -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14' build
+        xcodebuild -scheme csnews -sdk iphonesimulator -destination 'platform=iOS Simulator,OS=latest,name=iPhone SE (3rd generation)' build CODE_SIGNING_ALLOWED=NO
 
 
     # ℹ️ Command-line programs to run using the OS shell.
