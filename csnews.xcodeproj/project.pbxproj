@@ -24,24 +24,8 @@
 		23CDAA2F1BCFA7380066A61A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 23CDAA311BCFA7380066A61A /* Localizable.strings */; };
 		23EB41DA1BA3448200600155 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EB41D91BA3448200600155 /* Extensions.swift */; };
 		23EB41DC1BA34BEA00600155 /* TopNewsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EB41DB1BA34BEA00600155 /* TopNewsController.swift */; };
-		670D74D12E28D589009D81DB /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 670D74D02E28D589009D81DB /* Kingfisher.framework */; };
-		670D74D22E28D589009D81DB /* Kingfisher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 670D74D02E28D589009D81DB /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FEC47A810493F641BA98203A /* Pods_csnews.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45CD903D462E630E72EBBFF4 /* Pods_csnews.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		670D74D32E28D589009D81DB /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				670D74D22E28D589009D81DB /* Kingfisher.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		230405CB1BA2FA2300CEE159 /* EmptySegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptySegue.swift; sourceTree = "<group>"; };
@@ -85,7 +69,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				670D74D12E28D589009D81DB /* Kingfisher.framework in Frameworks */,
 				236683671B94252300E22B59 /* MobileCoreServices.framework in Frameworks */,
 				236683651B94251C00E22B59 /* Security.framework in Frameworks */,
 				236683631B94250700E22B59 /* SystemConfiguration.framework in Frameworks */,
@@ -241,7 +224,6 @@
 				236683371B94235F00E22B59 /* Sources */,
 				236683381B94235F00E22B59 /* Frameworks */,
 				236683391B94235F00E22B59 /* Resources */,
-				670D74D32E28D589009D81DB /* Embed Frameworks */,
 				5EA3DFEAA3CF484B3D50EFE5 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
