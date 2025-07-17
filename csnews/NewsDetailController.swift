@@ -44,13 +44,17 @@ class NewsDetailController: UIViewController, UIWebViewDelegate {
                         AnyHashable("height"): self.bannerImageView.frame.size.height,
                         AnyHashable("fit"): "crop"
                     ]
-                    let url = URL(string: AppDelegate.sharedSite().imageTransform(withUrl: imageURLString, andParams: param))!
-//                    let url = URL(string: imageURLString)!
-                    self.bannerImageView.kf.setImage(with: url,
-                                                     placeholder: nil,
-                                                     options: [.transition(.fade(1))],
-                                                     progressBlock: nil,
-                                                     completionHandler: nil)
+                    if let stringParam = param as? [String: Any]{
+                        let url = URL(string: AppDelegate.sharedSite().imageTransform(withUrl: imageURLString, andParams: stringParam))!
+                        //                    let url = URL(string: imageURLString)!
+                        self.bannerImageView.kf.setImage(with: url,
+                                                         placeholder: nil,
+                                                         options: [.transition(.fade(1))],
+                                                         progressBlock: nil,
+                                                         completionHandler: nil)}
+                    else{
+                        print("Error: param dictionary keys are not all Strings. Cannot generate image URL.")
+                    }
                 }else{
                     self.bannerImageView.image = UIImage(named: "thumbImage");
                 }

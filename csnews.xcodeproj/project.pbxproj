@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		020B4AF04BE8344AFEDFC850 /* Pods_csnews.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBD98A043B84E4C74322D7B2 /* Pods_csnews.framework */; };
 		230405CC1BA2FA2300CEE159 /* EmptySegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230405CB1BA2FA2300CEE159 /* EmptySegue.swift */; };
 		230405CE1BA2FCF700CEE159 /* CategoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230405CD1BA2FCF700CEE159 /* CategoryController.swift */; };
 		231443E91BA321960040250B /* MSSlidingPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 231443E61BA321960040250B /* MSSlidingPanelController.m */; };
@@ -25,6 +24,7 @@
 		23CDAA2F1BCFA7380066A61A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 23CDAA311BCFA7380066A61A /* Localizable.strings */; };
 		23EB41DA1BA3448200600155 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EB41D91BA3448200600155 /* Extensions.swift */; };
 		23EB41DC1BA34BEA00600155 /* TopNewsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EB41DB1BA34BEA00600155 /* TopNewsController.swift */; };
+		B2B9A4EF4D2377FDCC4DC307 /* Pods_csnews.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77EB7CEDABDD6C1704A49259 /* Pods_csnews.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,10 +55,10 @@
 		23EB41D91BA3448200600155 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		23EB41DB1BA34BEA00600155 /* TopNewsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopNewsController.swift; sourceTree = "<group>"; };
 		3752A72C1C3ABB102F61B165 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		46F3CBEBAF0574A168CDA14B /* Pods-csnews.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-csnews.debug.xcconfig"; path = "Pods/Target Support Files/Pods-csnews/Pods-csnews.debug.xcconfig"; sourceTree = "<group>"; };
-		90B379CA8D1D1CC158A49183 /* Pods-csnews.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-csnews.release.xcconfig"; path = "Pods/Target Support Files/Pods-csnews/Pods-csnews.release.xcconfig"; sourceTree = "<group>"; };
+		5DE52CCC0FDBD20638AD5879 /* Pods-csnews.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-csnews.debug.xcconfig"; path = "Target Support Files/Pods-csnews/Pods-csnews.debug.xcconfig"; sourceTree = "<group>"; };
+		67999A261DD8592B05C37EDD /* Pods-csnews.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-csnews.release.xcconfig"; path = "Target Support Files/Pods-csnews/Pods-csnews.release.xcconfig"; sourceTree = "<group>"; };
+		77EB7CEDABDD6C1704A49259 /* Pods_csnews.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_csnews.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB1B2DFCFB656C3EEFF758AF /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		DBD98A043B84E4C74322D7B2 /* Pods_csnews.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_csnews.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,7 +69,7 @@
 				236683671B94252300E22B59 /* MobileCoreServices.framework in Frameworks */,
 				236683651B94251C00E22B59 /* Security.framework in Frameworks */,
 				236683631B94250700E22B59 /* SystemConfiguration.framework in Frameworks */,
-				020B4AF04BE8344AFEDFC850 /* Pods_csnews.framework in Frameworks */,
+				B2B9A4EF4D2377FDCC4DC307 /* Pods_csnews.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,7 +121,7 @@
 				2366833D1B94236000E22B59 /* csnews */,
 				2366833C1B94236000E22B59 /* Products */,
 				5C4D2E668126DE6FCF256AE9 /* Frameworks */,
-				26FC58103C60EEA0CF547E1E /* Pods */,
+				A42B63567521BA07A80D72A0 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -185,18 +185,9 @@
 				236683661B94252300E22B59 /* MobileCoreServices.framework */,
 				236683641B94251C00E22B59 /* Security.framework */,
 				3752A72C1C3ABB102F61B165 /* Pods.framework */,
-				DBD98A043B84E4C74322D7B2 /* Pods_csnews.framework */,
+				77EB7CEDABDD6C1704A49259 /* Pods_csnews.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		26FC58103C60EEA0CF547E1E /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				46F3CBEBAF0574A168CDA14B /* Pods-csnews.debug.xcconfig */,
-				90B379CA8D1D1CC158A49183 /* Pods-csnews.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		5C4D2E668126DE6FCF256AE9 /* Frameworks */ = {
@@ -207,6 +198,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		A42B63567521BA07A80D72A0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5DE52CCC0FDBD20638AD5879 /* Pods-csnews.debug.xcconfig */,
+				67999A261DD8592B05C37EDD /* Pods-csnews.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -214,11 +215,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2366835A1B94236000E22B59 /* Build configuration list for PBXNativeTarget "csnews" */;
 			buildPhases = (
-				0CE87252EC002323889E502B /* [CP] Check Pods Manifest.lock */,
+				5E6DB13D8B4F33742AF05DF8 /* [CP] Check Pods Manifest.lock */,
 				236683371B94235F00E22B59 /* Sources */,
 				236683381B94235F00E22B59 /* Frameworks */,
 				236683391B94235F00E22B59 /* Resources */,
-				C68A18BA31E6D9E48A326BA0 /* [CP] Embed Pods Frameworks */,
+				814972872F7AC4FB3AE46596 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -281,16 +282,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0CE87252EC002323889E502B /* [CP] Check Pods Manifest.lock */ = {
+		5E6DB13D8B4F33742AF05DF8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			inputFileListPaths = (
 			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-csnews-checkManifestLockResult.txt",
 			);
@@ -299,18 +304,20 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C68A18BA31E6D9E48A326BA0 /* [CP] Embed Pods Frameworks */ = {
+		814972872F7AC4FB3AE46596 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-csnews/Pods-csnews-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Contentstack/Contentstack.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Contentstack.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 			);
@@ -409,7 +416,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
@@ -448,7 +455,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "$(inherited)";
 				SDKROOT = iphoneos;
@@ -458,7 +465,7 @@
 		};
 		2366835B1B94236000E22B59 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 46F3CBEBAF0574A168CDA14B /* Pods-csnews.debug.xcconfig */;
+			baseConfigurationReference = 5DE52CCC0FDBD20638AD5879 /* Pods-csnews.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
@@ -472,7 +479,7 @@
 					"$(PROJECT_DIR)/csnews",
 				);
 				INFOPLIST_FILE = csnews/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -487,7 +494,7 @@
 		};
 		2366835C1B94236000E22B59 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 90B379CA8D1D1CC158A49183 /* Pods-csnews.release.xcconfig */;
+			baseConfigurationReference = 67999A261DD8592B05C37EDD /* Pods-csnews.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
@@ -497,7 +504,7 @@
 					"$(PROJECT_DIR)/csnews",
 				);
 				INFOPLIST_FILE = csnews/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",

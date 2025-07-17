@@ -242,7 +242,7 @@ class TopNewsController: UIViewController, UITableViewDataSource, UITableViewDel
                 categories.enumerateObjects({ (obj, index, stop) -> Void in
                     var categoryUID:String = ""
                     let category:Entry = AppDelegate.sharedSite().contentType(withName: "category").entry(withUID: categoryUID)
-                    category.configure(with: obj as! [AnyHashable: Any])
+                    category.configure(with: obj as! [String: Any])
                     categoryUID = category.uid
                     if(categoryUID == self.selectedCategoryUId){
                         retVal = true
@@ -294,13 +294,18 @@ class TopNewsController: UIViewController, UITableViewDataSource, UITableViewDel
                         AnyHashable("height"): self.bannerImage.frame.size.height,
                         AnyHashable("fit"): "crop"
                     ]
-                    let url = URL(string: AppDelegate.sharedSite().imageTransform(withUrl: imageURLString, andParams: param))!
-                    self.bannerImage.kf.setImage(with: url,
-                                                 placeholder: nil,
-                                                 options: [.transition(.fade(1))],
-                                                 progressBlock: nil,
-                                                 completionHandler: nil)
-                }else{
+                    if let stringParam = param as? [String: Any] {
+                        let url = URL(string: AppDelegate.sharedSite().imageTransform(withUrl: imageURLString, andParams: stringParam))!
+                        self.bannerImage.kf.setImage(with: url,
+                                                     placeholder: nil,
+                                                     options: [.transition(.fade(1))],
+                                                     progressBlock: nil,
+                                                     completionHandler: nil)
+                    } else{
+                            print("Error: param dictionary keys are not all Strings. Cannot generate image URL.")
+                        }
+                    
+                } else {
                     self.bannerImage.image = UIImage(named: "thumbImage");
                 }
             }else {
