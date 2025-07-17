@@ -63,9 +63,17 @@ jobs:
     - name: List available simulators
       run: xcrun simctl list devices
 
+    - name: Install CocoaPods dependencies
+      run: pod install
+
     - name: Build with xcodebuild
       run: |
-        xcodebuild -scheme csnews -sdk iphonesimulator -destination 'platform=iOS Simulator,OS=latest,name=iPhone SE (3rd generation)' build CODE_SIGNING_ALLOWED=NO
+        xcodebuild -workspace csnews.xcworkspace \
+          -scheme csnews \
+          -sdk iphonesimulator \
+          -destination 'platform=iOS Simulator,OS=latest,name=iPhone SE (3rd generation)' \
+          build CODE_SIGNING_ALLOWED=NO
+          -verbose
 
 
     # ℹ️ Command-line programs to run using the OS shell.
