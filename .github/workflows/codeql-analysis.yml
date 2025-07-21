@@ -49,6 +49,12 @@ jobs:
         
         # Details on CodeQL's query packs refer to : https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
         # queries: security-extended,security-and-quality
+
+    - name: Set up Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: 'latest-stable'
+
     - name: Set up Ruby (for CocoaPods, optional but recommended)
       uses: ruby/setup-ruby@v1
       with:
@@ -68,12 +74,22 @@ jobs:
     - name: Clean Derived Data
       run: rm -rf ~/Library/Developer/Xcode/DerivedData
 
+    - name: List available simulators
+      run: xcrun simctl list devices available
+
+    - name: Show Xcode version
+      run: xcodebuild -version
+
+    - name: Show available SDKs
+      run: xcodebuild -showsdks
+
     - name: Build with xcodebuild
       run: |
         xcodebuild -workspace csnews.xcworkspace \
           -scheme csnews \
           -sdk iphonesimulator \
-          -destination 'platform=iOS Simulator,OS=latest,name=iPhone SE (3rd generation)' \
+          -destination 'platform=iOS Simulator,OS=latest,name=iPhone 15' \
+          -configuration Debug \
           build CODE_SIGNING_ALLOWED=NO
 
 
