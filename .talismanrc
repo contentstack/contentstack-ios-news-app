@@ -10,6 +10,8 @@ fileignoreconfig:
   checksum: d3b2a9aaeb2194c3688178a88fed42399c2ce11967141267da2fa4ca352274ae
 - filename: Podfile.lock
   checksum: 8092cb6bb4ccbf7b384dfacdae70eb97651522d41ccf1bb95cd2a4f3f3133907
+- filename: csnews.xcodeproj/project.pbxproj
+  checksum: aac67b934c7066328ee9b6d00d45e53fcf8f1ce8b2b950aa99f18ae5f2752673
   ignore_detectors:
     - filecontent
 version: "1.0"
