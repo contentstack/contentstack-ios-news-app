@@ -4,7 +4,7 @@
 
 **About this project**: Create an iOS news app using Contentstack iOS SDK.
 
-<img src='https://images.contentstack.io/v3/assets/***REMOVED***/***REMOVED***/5d651634e1a1d62fee0efcac/ios_large.png?disposition=inline' width='650' height='550'/>
+<img src='https://images.contentstack.io/v3/assets/asset_uid/dummy_uid/5d651634e1a1d62fee0efcac/ios_large.png?disposition=inline' width='650' height='550'/>
  
  ## Tutorial
  
