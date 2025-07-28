@@ -1,26 +1,26 @@
 PODS:
-  - Contentstack (3.3.0)
-  - Kingfisher (4.10.1)
-  - NVActivityIndicatorView (4.4.1):
-    - NVActivityIndicatorView/Presenter (= 4.4.1)
-  - NVActivityIndicatorView/Presenter (4.4.1)
+  - Contentstack (3.15.0)
+  - Kingfisher (8.5.0)
+  - NVActivityIndicatorView (5.2.0):
+    - NVActivityIndicatorView/Base (= 5.2.0)
+  - NVActivityIndicatorView/Base (5.2.0)
 
 DEPENDENCIES:
-  - Contentstack
-  - Kingfisher (~> 4.10.0)
-  - NVActivityIndicatorView (~> 4.4.0)
+  - Contentstack (~> 3.15.0)
+  - Kingfisher (~> 8.5.0)
+  - NVActivityIndicatorView (~> 5.2.0)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - Contentstack
     - Kingfisher
     - NVActivityIndicatorView
 
 SPEC CHECKSUMS:
-  Contentstack: 297c5cfd221d0463b8f86093682dcfb04fe14f79
-  Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
-  NVActivityIndicatorView: f0a6b0ed2973d9544da268f4eb76696f0a9577b0
+  Contentstack: 2f82e64408036f33d9b561e65cd5c359943362fa
+  Kingfisher: ff0d31a1f07bdff6a1ebb3ba08b8e6e567b6500c
+  NVActivityIndicatorView: fe52a6a68664c2df8991d7d9e3d86d8d19453c53
 
-PODFILE CHECKSUM: 841fe30c08174e6ed20c8ce8df27fb8bfe0ce183
+PODFILE CHECKSUM: b2454119c050e263e2a299a5738b04b422663bf7
 
-COCOAPODS: 1.6.0.rc.2
+COCOAPODS: 1.16.2

@@ -58,12 +58,15 @@ class NewsCell: UITableViewCell {
                 ]
                 self.bannerImageView.contentMode = UIView.ContentMode.scaleAspectFill
                 self.bannerImageView.clipsToBounds = true
-                let url = URL(string: AppDelegate.sharedSite().imageTransform(withUrl: imageURLString, andParams: param))!
-                self.bannerImageView.kf.setImage(with: url,
-                                                 placeholder: nil,
-                                                 options: [.transition(.fade(1))],
-                                                 progressBlock: nil,
-                                                 completionHandler: nil)
+               if let stringParam = param as? [String: Any]{
+                    let url = URL(string: AppDelegate.sharedSite().imageTransform(withUrl: imageURLString, andParams: stringParam))!
+                    self.bannerImageView.kf.setImage(with: url,
+                                                     placeholder: nil,
+                                                     options: [.transition(.fade(1))],
+                                                     progressBlock: nil,
+                                                     completionHandler: nil)} else{
+                        print("Error: param dictionary keys are not all Strings. Cannot generate image URL.")
+                    }
             }else{
                 self.bannerImageView.image = UIImage(named: "thumbImage");
             }
