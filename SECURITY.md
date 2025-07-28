@@ -1,4 +1,4 @@
-## Security
+# Security
 
 Contentstack takes the security of our software products and services seriously, which includes all source code repositories managed through our GitHub organizations.
 
@@ -24,4 +24,5 @@ Please include the requested information listed below (as much as you can provid
 
 This information will help us triage your report more quickly.
 
-[https://www.contentstack.com/trust/](https://www.contentstack.com/trust/) 
+
+[https://www.contentstack.com/trust/](https://www.contentstack.com/trust/)
